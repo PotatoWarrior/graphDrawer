@@ -33,6 +33,7 @@ namespace GraphDraw
             int N = 8;
             Graph g = new Graph(matrix, N, pictureBox1);
             g.draw();
+            //123
         }
 
     }

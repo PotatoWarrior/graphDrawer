@@ -12,29 +12,30 @@ namespace GraphDraw
 {
     public partial class Form1 : Form
     {
+        Graph graph;
         public Form1()
         {
             InitializeComponent();
-        }
-        
-        protected override void OnLoad(EventArgs e)
-        {
-            int[,] matrix = 
-            {
-                {0, 1, 0, 0, 1, 1, 1, 1}, 
-                {1, 0, 0, 1, 0, 0, 0, 0}, 
-                {0, 0, 0, 0, 0, 1, 0, 0}, 
-                {0, 1, 0, 0, 1, 0, 0, 1}, 
-                {1, 0, 0, 1, 0, 0, 0, 1}, 
-                {1, 0, 1, 0, 0, 0, 1, 0}, 
-                {1, 0, 0, 0, 0, 1, 0, 0},
-                {1, 0, 0, 0, 0, 1, 0, 0},
-            };
-            int N = 8;
-            Graph g = new Graph(matrix, N, pictureBox1);
-            g.draw();
-            //123
+            graph = new Graph(pictureBox1);
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            graph.setK(Decimal.ToInt32(numTime.Value));
+            graph.addVertex(Decimal.ToInt32(numX.Value) - Vertex.VERTEX_D / 2, Decimal.ToInt32(numY.Value) - Vertex.VERTEX_D / 2, Decimal.ToInt32(numDiam.Value));
+            graph.draw();
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            graph.setK(Decimal.ToInt32(numTime.Value));
+            graph.addVertex(e.X - Vertex.VERTEX_D / 2, e.Y - Vertex.VERTEX_D / 2, Decimal.ToInt32(numDiam.Value));
+            graph.draw();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            graph.clear();
+        }
     }
 }

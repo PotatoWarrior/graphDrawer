@@ -39,7 +39,7 @@ namespace GraphDraw
             double angle, dx, dy;
             for (int count = 0; count < N; count++)
             {
-                angle = ((2.0 * Math.PI * count) / N) - Math.PI / 2;
+                angle = ((2.0 * Math.PI * count) / N) + - Math.PI / 2;
                 dx = ((pb.Width / 2) - 50) * Math.Cos(angle);
                 dy = ((pb.Height / 2) - 50) * Math.Sin(angle);
                 vertexList.Add(new Vertex((float)(x + dx), (float)(y + dy), count));

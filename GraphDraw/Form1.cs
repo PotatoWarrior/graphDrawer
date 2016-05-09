@@ -12,28 +12,35 @@ namespace GraphDraw
 {
     public partial class Form1 : Form
     {
+        int N = 9;
+        int[,] matrix = 
+            {
+                {0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+                {0, 0, 0, 0, 0, 1, 0, 0, 1}, 
+                {0, 0, 0, 0, 0, 0, 1, 0, 1}, 
+                {0, 0, 0, 0, 0, 0, 1, 1, 0}, 
+                {0, 0, 0, 0, 0, 0, 1, 0, 0}, 
+                {0, 1, 0, 0, 0, 0, 0, 0, 1}, 
+                {0, 0, 1, 1, 1, 0, 0, 0, 0}, 
+                {1, 0, 0, 1, 0, 0, 0, 0, 0}, 
+                {1, 1, 1, 0, 0, 1, 0, 0, 0},
+            };
+        Graph g;
         public Form1()
         {
             InitializeComponent();
+            g = new Graph(matrix, N, pictureBox1);
+            g.draw();
+            
         }
-        
-        protected override void OnLoad(EventArgs e)
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            int[,] matrix = 
-            {
-                {0, 1, 0, 0, 1, 1, 1, 1}, 
-                {1, 0, 0, 1, 0, 0, 0, 0}, 
-                {0, 0, 0, 0, 0, 1, 0, 0}, 
-                {0, 1, 0, 0, 1, 0, 0, 1}, 
-                {1, 0, 0, 1, 0, 0, 0, 1}, 
-                {1, 0, 1, 0, 0, 0, 1, 0}, 
-                {1, 0, 0, 0, 0, 1, 0, 0},
-                {1, 0, 0, 0, 0, 1, 0, 0},
-            };
-            int N = 8;
-            Graph g = new Graph(matrix, N, pictureBox1);
+            g = new Graph(matrix, N, pictureBox1);
             g.draw();
         }
+        
+        
 
     }
 }

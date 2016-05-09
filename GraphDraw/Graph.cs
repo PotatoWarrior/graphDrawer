@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Collections;
+
 
 namespace GraphDraw
 {
@@ -62,14 +59,12 @@ namespace GraphDraw
             }
             matrix[t.index, t.index] = 0;
             N++;
-            System.GC.Collect();
         }
 
         public void clear()
         {
             N = 0;
             vertexList.Clear();
-            System.GC.Collect();
             draw();
         }
 
@@ -79,14 +74,14 @@ namespace GraphDraw
             gr = Graphics.FromImage(bitmap);
             gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-            foreach(Vertex u in vertexList)
+            foreach (Vertex u in vertexList)
                 foreach (Vertex v in vertexList)
                 {
                     if (v.index <= u.index) continue;
                     if (matrix[u.index, v.index] != 0)
                         drawEdge(u, v);
                 }
-            foreach(Vertex v in vertexList)
+            foreach (Vertex v in vertexList)
             {
                 drawVertex(v);
             }
@@ -96,24 +91,30 @@ namespace GraphDraw
         private void drawVertex(Vertex vertex)
         {
             gr.FillEllipse(Brushes.SteelBlue, vertex.x, vertex.y, Vertex.VERTEX_D, Vertex.VERTEX_D);
-            gr.DrawString("" + vertex.diam, font, Brushes.Yellow, new PointF(vertex.x + Vertex.VERTEX_D / 4, vertex.y + Vertex.VERTEX_D / 4));
+            gr.DrawString("" + vertex.diam, font, Brushes.Yellow,
+                new PointF(vertex.x + Vertex.VERTEX_D/4, vertex.y + Vertex.VERTEX_D/4));
         }
 
         private void drawEdge(Vertex vertex1, Vertex vertex2)
         {
-            PointF p1 = new PointF(vertex1.x + Vertex.VERTEX_D / 2, vertex1.y + Vertex.VERTEX_D / 2);
-            PointF p2 = new PointF(vertex2.x + Vertex.VERTEX_D / 2, vertex2.y + Vertex.VERTEX_D / 2);
+            PointF p1 = new PointF(vertex1.x + Vertex.VERTEX_D/2, vertex1.y + Vertex.VERTEX_D/2);
+            PointF p2 = new PointF(vertex2.x + Vertex.VERTEX_D/2, vertex2.y + Vertex.VERTEX_D/2);
             gr.DrawLine(new Pen(Brushes.MediumSlateBlue, 3), p1, p2);
         }
 
         private int distanceBetween(Vertex vertex1, Vertex vertex2)
         {
-            return (int)Math.Sqrt((double)((vertex1.x - vertex2.x) * (vertex1.x - vertex2.x) + (vertex1.y - vertex2.y) * (vertex1.y - vertex2.y)));
+            return
+                (int)
+                    Math.Sqrt(
+                        (double)
+                            ((vertex1.x - vertex2.x)*(vertex1.x - vertex2.x) +
+                             (vertex1.y - vertex2.y)*(vertex1.y - vertex2.y)));
         }
 
         private void recalcMatrix()
         {
-            foreach(Vertex u in vertexList)
+            foreach (Vertex u in vertexList)
                 foreach (Vertex v in vertexList)
                 {
                     if (u.index == v.index) continue;

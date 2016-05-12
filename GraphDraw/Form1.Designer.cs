@@ -71,7 +71,7 @@
             // 
             this.numDiam.Location = new System.Drawing.Point(260, 626);
             this.numDiam.Maximum = new decimal(new int[] {
-            1000,
+            999,
             0,
             0,
             0});

@@ -148,6 +148,7 @@ namespace GraphDraw
 
         private void branchesAndBorders()
         {
+            
             solution = new int[2,N];
             int [,] cost = new int[N,N];
             for (int count = 0; count < N; count++)
@@ -207,7 +208,34 @@ namespace GraphDraw
                 for (int a = 0; a < N; a++)
                     matrix[tI, a] = matrix[a, tJ] = deleted;
 
-                if(matrix[tJ, tI] != deleted) matrix[tJ, tI] = inf;
+                if (matrix[tJ, tI] != deleted) matrix[tJ, tI] = inf;
+                else
+                {
+                    int iCount, dCount;
+                    for (int i = 0; i < N; i++)
+                    {
+                        iCount = dCount = 0;
+                        for (int j = 0; j < N; j++)
+                        {
+                            if (matrix[i, j] == inf) iCount++;
+                            if (matrix[i, j] == deleted) dCount++;
+                        }
+                        if (iCount == 0 && dCount != N) tI = i;
+                    }
+
+                    for (int i = 0; i < N; i++)
+                    {
+                        iCount = dCount = 0;
+                        for (int j = 0; j < N; j++)
+                        {
+                            if (matrix[j, i] == inf) iCount++;
+                            if (matrix[j, i] == deleted) dCount++;
+                        }
+                        if (iCount == 0 && dCount != N) tJ = i;
+                    }
+                    if (matrix[tI, tJ] != deleted) 
+                        matrix[tI, tJ] = inf;
+                }
             }
             
         }

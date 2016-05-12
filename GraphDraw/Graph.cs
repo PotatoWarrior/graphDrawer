@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Collections;
+using System.Drawing.Drawing2D;
 
 namespace GraphDraw
 {
@@ -20,17 +17,28 @@ namespace GraphDraw
         private Bitmap bitmap;
         private Graphics gr;
         private Font font;
-
-        public Graph(int[,] matrix, int N, PictureBox pb)
+        private CustomLineCap cap;
+        private bool isDir = false;
+        public Graph(int[,] matrix, int N, PictureBox pb, bool isDir)
         {
             this.N = N;
             this.matrix = matrix;
             this.pb = pb;
+            this.isDir = isDir;
             font = new System.Drawing.Font("Times New Roman", 12, FontStyle.Bold);
 
             bitmap = new Bitmap(pb.Width, pb.Height);
             gr = Graphics.FromImage(bitmap);
             gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            GraphicsPath gp = new GraphicsPath();
+            int startArrow = -10;
+            int endArrow = -5;
+            int hArrow = 3;
+            gp.AddLine(new Point(-hArrow, startArrow), new Point(hArrow, startArrow));
+            gp.AddLine(new Point(hArrow, startArrow), new Point(0, endArrow));
+            gp.AddLine(new Point(0, endArrow), new Point(-hArrow, startArrow));
+            cap = new CustomLineCap(null, gp);
 
             vertexList = new List<Vertex>(N);
 
@@ -51,8 +59,7 @@ namespace GraphDraw
             foreach(Vertex u in vertexList)
                 foreach (Vertex v in vertexList)
                 {
-                    if (v.index <= u.index) continue;
-                    if (matrix[u.index, v.index] != 0)
+                   if (matrix[u.index, v.index] != 0)
                         drawEdge(u, v);
                 }
             foreach(Vertex v in vertexList)
@@ -72,7 +79,10 @@ namespace GraphDraw
         {
             PointF p1 = new PointF(vertex1.x + Vertex.VERTEX_D / 2, vertex1.y + Vertex.VERTEX_D / 2);
             PointF p2 = new PointF(vertex2.x + Vertex.VERTEX_D / 2, vertex2.y + Vertex.VERTEX_D / 2);
-            gr.DrawLine(new Pen(Brushes.MediumSlateBlue, 3), p1, p2);
+            
+            Pen p = new Pen(Brushes.MediumSlateBlue, 3);
+            if(isDir) p.CustomEndCap = cap;
+            gr.DrawLine(p, p1, p2);
         }
     }
 }

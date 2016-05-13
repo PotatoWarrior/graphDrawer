@@ -48,8 +48,8 @@ namespace GraphDraw
             }
             catch (Exception exception)
             {
-                
-                MessageBox.Show(exception.ToString());
+
+                MessageBox.Show("Некорректный ввод");
                 
             }
             

@@ -12,12 +12,7 @@ namespace GraphDraw
             saveFileDialog1.Filter = "Текстовые файлы|*.txt";
         }
 
-        private void Form1_SizeChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+       private void button1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -53,7 +48,8 @@ namespace GraphDraw
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Некорректный ввод");
+                
+                MessageBox.Show(exception.ToString());
                 
             }
             

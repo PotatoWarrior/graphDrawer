@@ -38,6 +38,7 @@ namespace GraphDraw
             gp.AddLine(new Point(-hArrow, startArrow), new Point(hArrow, startArrow));
             gp.AddLine(new Point(hArrow, startArrow), new Point(0, endArrow));
             gp.AddLine(new Point(0, endArrow), new Point(-hArrow, startArrow));
+            
             cap = new CustomLineCap(null, gp);
 
             vertexList = new List<Vertex>(N);

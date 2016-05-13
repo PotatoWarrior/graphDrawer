@@ -163,7 +163,7 @@
             this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "Form1";
             this.Text = "Graph";
-            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
+            
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

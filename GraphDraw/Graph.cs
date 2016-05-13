@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Text;
-using System.Xml.Serialization;
-
 
 namespace GraphDraw
 {
@@ -94,7 +91,7 @@ namespace GraphDraw
         private void drawVertex(Vertex vertex)
         {
             gr.FillEllipse(Brushes.SteelBlue, vertex.x, vertex.y, Vertex.VERTEX_D, Vertex.VERTEX_D);
-            gr.DrawString("" + vertex.index, font, Brushes.Yellow,
+            gr.DrawString("" + vertex.diam, font, Brushes.Yellow,
                 new PointF(vertex.x + Vertex.VERTEX_D/4, vertex.y + Vertex.VERTEX_D/4));
         }
 
@@ -127,31 +124,13 @@ namespace GraphDraw
                 }
         }
 
-        private void printMatrix()
-        {
-            for (int i = 0; i < N; i++)
-            {
-                for (int j = 0; j < N; j++)
-                    switch (matrix[i, j])
-                    {
-                        case deleted: Console.Write("d ");
-                            break;
-                        case inf: Console.Write("i ");
-                            break;
-                        default: Console.Write(matrix[i, j] + " ");
-                            break;
-                    }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
-
         private void branchesAndBorders()
         {
             
             solution = new int[2,N];
             int [,] cost = new int[N,N];
-            for (int count = 0; count < N; count++)
+            int count;
+            for (count = 0; count < N - 2; count++)
             {
                 for (int i = 0; i < N; i++)
                 {
@@ -237,7 +216,31 @@ namespace GraphDraw
                         matrix[tI, tJ] = inf;
                 }
             }
-            
+            for(int i = 0;i < N;i++)
+                for (int j = 0; j < N; j++)
+                    if (matrix[i, j] != inf && matrix[i, j] != deleted)
+                    {
+                        solution[0, count] = i;
+                        solution[1, count++] = j;
+                    }
+            int maxEdge = 0, edgeIndex = 0;
+            for (int i = 0; i < count; i++)
+            {
+                Vertex v1 = findVertex(solution[0, i]);
+                Vertex v2 = findVertex(solution[1, i]);
+                if (v1.diam != v2.diam)
+                {
+                    solution[0, i] = solution[1, i] = 0;
+                    return;
+                }
+                int d = distanceBetween(v1, v2);
+                if (d > maxEdge)
+                {
+                    maxEdge = d;
+                    edgeIndex = i;
+                }
+            }
+            solution[0, edgeIndex] = solution[1, edgeIndex] = 0;
         }
     }
 }
